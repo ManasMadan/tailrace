@@ -1,0 +1,21 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.1.4/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "commit": false,
+  "fixed": [
+    [
+      "walcast",
+      "@walcast/plugin-kit",
+      "@walcast/sink-webhook",
+      "@walcast/sink-sse",
+      "@walcast/sink-kafka",
+      "@walcast/sink-grpc",
+      "@walcast/typegen-prisma"
+    ]
+  ],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "master",
+  "updateInternalDependencies": "patch",
+  "ignore": []
+}
