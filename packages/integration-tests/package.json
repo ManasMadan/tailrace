@@ -1,0 +1,21 @@
+{
+  "name": "@walcast/integration-tests",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Cross-package tests: daemon behavior, kill -9 money tests, tarball installability. Never published.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@walcast/plugin-kit": "workspace:*",
+    "@walcast/sink-kafka": "workspace:*",
+    "@walcast/sink-sse": "workspace:*",
+    "@walcast/sink-webhook": "workspace:*",
+    "@types/pg": "^8.15.0",
+    "kafkajs": "^2.2.4",
+    "pg": "^8.16.0",
+    "walcast": "workspace:*"
+  }
+}
