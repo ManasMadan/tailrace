@@ -1,0 +1,47 @@
+{
+  "name": "@walcast/sink-sse",
+  "version": "0.1.0",
+  "description": "walcast sink: ephemeral live Server-Sent Events endpoint mounted on the walcast daemon. Node stdlib only.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManasMadan/walcast.git",
+    "directory": "packages/sink-sse"
+  },
+  "keywords": [
+    "walcast",
+    "cdc",
+    "postgres",
+    "sse",
+    "server-sent-events",
+    "sink"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@walcast/plugin-kit": "workspace:^"
+  },
+  "devDependencies": {
+    "@walcast/plugin-kit": "workspace:^"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
