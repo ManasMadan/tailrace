@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #0b1220;
+  --color-basin: #121a2a;
+  --color-basin-2: #0e1626;
+  --color-line: #22304a;
+  --color-flow: #5ee1c6;
+  --color-flow-dim: #2b6f63;
+  --color-warn: #e8b44c;
+  --color-fail: #e4645c;
+  --color-fg: #d7e0ee;
+  --color-muted: #7c8aa5;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'JetBrains Mono', Menlo, monospace;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+html {
+  background: var(--color-ink);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-flow-dim);
+}
+
+/* Live tail rows surface like water — once, subtly. */
+@keyframes surface {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.surface {
+  animation: surface 240ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .surface {
+    animation: none;
+  }
+}
+
+/* Uppercase letterspaced eyebrows — the section voice of the app. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
