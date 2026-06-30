@@ -1,0 +1,50 @@
+{
+  "name": "@walcast/sink-kafka",
+  "version": "0.1.0",
+  "description": "walcast sink: Kafka with true exactly-once semantics into the topic — transactional writes plus a compacted checkpoint topic.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManasMadan/walcast.git",
+    "directory": "packages/sink-kafka"
+  },
+  "keywords": [
+    "walcast",
+    "cdc",
+    "postgres",
+    "kafka",
+    "exactly-once",
+    "sink"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "kafkajs": "^2.2.4"
+  },
+  "peerDependencies": {
+    "@walcast/plugin-kit": "workspace:^"
+  },
+  "devDependencies": {
+    "@walcast/plugin-kit": "workspace:^"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
