@@ -1,0 +1,51 @@
+{
+  "name": "@walcast/sink-grpc",
+  "version": "0.1.0",
+  "description": "walcast sink: durable delivery to your gRPC server implementing the published walcast.v1.WalcastSink contract.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManasMadan/walcast.git",
+    "directory": "packages/sink-grpc"
+  },
+  "keywords": [
+    "walcast",
+    "cdc",
+    "postgres",
+    "grpc",
+    "sink"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "proto"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@walcast/plugin-kit": "workspace:^"
+  },
+  "devDependencies": {
+    "@walcast/plugin-kit": "workspace:^"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.13.0",
+    "@grpc/proto-loader": "^0.7.13"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
