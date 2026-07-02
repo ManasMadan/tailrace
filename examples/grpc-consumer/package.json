@@ -1,0 +1,14 @@
+{
+  "name": "@walcast/example-grpc-consumer",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A runnable gRPC server implementing the walcast.v1.WalcastSink contract. Point @walcast/sink-grpc at it.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.13.0",
+    "@grpc/proto-loader": "^0.7.13"
+  }
+}
