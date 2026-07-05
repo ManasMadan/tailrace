@@ -1,0 +1,17 @@
+{
+  "name": "@walcast/example-library-typed",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Typed change events generated from a Prisma schema with @walcast/typegen-prisma.",
+  "type": "module",
+  "scripts": {
+    "generate": "typegen-prisma --schema prisma/schema.prisma --out src/walcast-types.ts",
+    "start": "node --experimental-strip-types index.ts"
+  },
+  "dependencies": {
+    "walcast": "workspace:*"
+  },
+  "devDependencies": {
+    "@walcast/typegen-prisma": "workspace:*"
+  }
+}
