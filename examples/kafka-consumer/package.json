@@ -1,0 +1,13 @@
+{
+  "name": "@walcast/example-kafka-consumer",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A kafkajs consumer reading walcast change events with read_committed isolation.",
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "dependencies": {
+    "kafkajs": "^2.2.4"
+  }
+}
