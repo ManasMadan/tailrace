@@ -1,0 +1,17 @@
+{
+  "name": "@walcast/example-daemon-config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A full walcast.config.json running webhook, SSE, Kafka, and gRPC sinks side by side.",
+  "type": "module",
+  "scripts": {
+    "start": "walcast serve"
+  },
+  "dependencies": {
+    "@walcast/sink-grpc": "workspace:*",
+    "@walcast/sink-kafka": "workspace:*",
+    "@walcast/sink-sse": "workspace:*",
+    "@walcast/sink-webhook": "workspace:*",
+    "walcast": "workspace:*"
+  }
+}
