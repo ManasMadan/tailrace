@@ -1,0 +1,51 @@
+{
+  "db": "postgres://postgres:postgres@localhost:5432/postgres",
+  "publication": "walcast",
+  "slot": "walcast",
+  "server": {
+    "port": 7717,
+    "host": "127.0.0.1",
+    "authToken": null
+  },
+  "engine": {
+    "batchSize": 100,
+    "lingerMs": 25,
+    "maxAttempts": 10,
+    "queueDepth": 1000
+  },
+  "sinks": [
+    {
+      "use": "@walcast/sink-sse",
+      "name": "live-tail"
+    },
+    {
+      "use": "@walcast/sink-webhook",
+      "name": "orders-hook",
+      "config": {
+        "url": "http://localhost:9799/hook",
+        "secret": "change-me",
+        "headers": { "authorization": "Bearer receiver-token" },
+        "timeoutMs": 30000
+      }
+    },
+    {
+      "use": "@walcast/sink-kafka",
+      "name": "analytics-kafka",
+      "config": {
+        "brokers": ["localhost:9092"],
+        "topicPrefix": "walcast",
+        "eos": true,
+        "keyColumns": { "public.orders": ["id"] }
+      }
+    },
+    {
+      "use": "@walcast/sink-grpc",
+      "name": "billing-grpc",
+      "config": {
+        "address": "localhost:50051",
+        "tls": false,
+        "deadlineMs": 30000
+      }
+    }
+  ]
+}
