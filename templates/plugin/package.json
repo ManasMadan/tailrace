@@ -1,0 +1,38 @@
+{
+  "name": "walcast-sink-example",
+  "version": "0.1.0",
+  "description": "walcast sink: appends change events as NDJSON to a file. Copy me to build your own sink.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "walcast",
+    "walcast-sink"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@walcast/plugin-kit": "^0.1.0"
+  },
+  "devDependencies": {
+    "@walcast/plugin-kit": "^0.1.0",
+    "@types/node": "^24.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  }
+}
