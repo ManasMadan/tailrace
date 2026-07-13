@@ -1,0 +1,17 @@
+{
+  "name": "@walcast/bench",
+  "version": "0.0.0",
+  "private": true,
+  "description": "End-to-end benchmark: sustained inserts, commit→webhook and commit→Kafka latency. Never published.",
+  "type": "module",
+  "scripts": {
+    "bench": "node bench.mjs"
+  },
+  "dependencies": {
+    "@walcast/sink-kafka": "workspace:*",
+    "@walcast/sink-webhook": "workspace:*",
+    "kafkajs": "^2.2.4",
+    "pg": "^8.16.0",
+    "walcast": "workspace:*"
+  }
+}
