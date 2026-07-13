@@ -1,0 +1,13 @@
+{
+  "name": "@walcast/demo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Seed + scripted writes for the docker compose demo. Never published.",
+  "type": "module",
+  "scripts": {
+    "demo": "node seed.mjs"
+  },
+  "dependencies": {
+    "pg": "^8.16.0"
+  }
+}
