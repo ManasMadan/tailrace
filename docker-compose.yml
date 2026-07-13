@@ -1,0 +1,73 @@
+# Demo stack: Postgres 16 (logical WAL) + single-node Kafka (KRaft) + the
+# walcast daemon built from this workspace with webhook, SSE, and Kafka
+# sinks. Then:
+#
+#   docker compose up --build
+#   npm run demo          # seed a table, generate scripted writes
+#   open http://127.0.0.1:7717/ui/?token=demo
+services:
+  postgres:
+    image: postgres:16-alpine
+    command: ['postgres', '-c', 'wal_level=logical']
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - '54320:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 2s
+      timeout: 2s
+      retries: 30
+
+  kafka:
+    image: apache/kafka:3.9.0
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      # INTERNAL serves the compose network (and the broker's own
+      # transaction coordinator); EXTERNAL serves the host for inspection.
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,EXTERNAL://0.0.0.0:9094,CONTROLLER://localhost:9093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://127.0.0.1:19094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    ports:
+      - '19094:9094'
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          '/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 >/dev/null 2>&1',
+        ]
+      interval: 3s
+      timeout: 5s
+      retries: 30
+
+  # Stand-in webhook consumer: logs each batch it receives.
+  receiver:
+    image: node:22-slim
+    command: ['node', '/demo/receiver.mjs']
+    volumes:
+      - ./demo:/demo:ro
+
+  walcast:
+    build:
+      context: .
+      dockerfile: demo/Dockerfile
+    volumes:
+      - ./demo:/demo:ro
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+    ports:
+      - '7717:7717'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      receiver:
+        condition: service_started
