@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://github.com/ManasMadan/walcast#readme
+    about: The README covers setup, delivery guarantees, and operational caveats.
+  - name: Design decisions
+    url: https://github.com/ManasMadan/walcast/blob/main/DECISIONS.md
+    about: '"Why is it like this?" is usually answered here.'
