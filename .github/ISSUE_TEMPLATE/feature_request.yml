@@ -1,0 +1,30 @@
+name: Feature request
+description: Propose a change or addition to walcast
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A note before you write: the core deliberately does the least — everything that
+        transports events is a plugin. If your idea is "walcast should deliver events to X",
+        that's a new sink, and it can live in your own repo today: use the
+        **Sink proposal** template instead.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: The underlying need, not the solution. What are you doing today instead, and why does it hurt?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What you'd like walcast to do. API sketches welcome.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Including "do it in my own code / a plugin" — and why that doesn't work here.
