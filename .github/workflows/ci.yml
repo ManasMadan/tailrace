@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Lint, types, unit + integration tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Build first: type-aware lint and typecheck resolve workspace
+      # dependencies through each package's built dist types.
+      - run: pnpm -r build
+      - run: pnpm lint
+      - run: pnpm format:check
+      - run: pnpm -r typecheck
+      # Integration suites start throwaway Postgres 16 and Kafka (KRaft)
+      # containers themselves; the runner has docker. This includes the
+      # conformance harness across all official sinks and both money tests
+      # (kill -9 webhook delivery, kill-during-Kafka-transaction EOS).
+      - run: pnpm -r test
+
+  packaging:
+    name: Lean core + tarball installability
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm -r build
+      # The published core must stay a microkernel: deps = pg (+ the
+      # zero-dependency plugin-kit), no transport code, UI assets bundled.
+      - run: node scripts/check-lean-core.mjs
+      # Install the packed tarballs into a scratch project like a stranger
+      # would: import, CLI, zero-sink onboarding error, then a live daemon.
+      - run: node scripts/verify-tarballs.mjs
+
+  docs:
+    name: Docs build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter '@walcast/docs' build
