@@ -1,0 +1,50 @@
+name: Sink proposal
+description: Propose a new sink, or submit your community sink for listing
+labels: ['sink']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Community sinks live in their **own repositories**, named `walcast-sink-<name>`
+        (the `@walcast/*` scope is reserved for official packages), and get listed on the
+        community sinks page. See the "Contributing a sink plugin" section of CONTRIBUTING.md
+        and the starter in `templates/plugin/`.
+  - type: input
+    id: target
+    attributes:
+      label: Target system
+      description: Where should events go?
+      placeholder: ClickHouse / NATS / S3 / ...
+    validations:
+      required: true
+  - type: dropdown
+    id: durability
+    attributes:
+      label: Intended durability
+      description: Durable sinks hold the replication checkpoint back until delivery succeeds; ephemeral sinks are best-effort and can never hold WAL back.
+      options:
+        - durable
+        - ephemeral
+        - not sure yet
+    validations:
+      required: true
+  - type: input
+    id: package
+    attributes:
+      label: Package / repository (if it already exists)
+      placeholder: https://github.com/you/walcast-sink-clickhouse
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything tricky?
+      description: Idempotency strategy for redelivery, ordering constraints, batching, auth — anything where the sink contract and the target system rub against each other.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Listing checklist (if you're submitting an existing sink)
+      options:
+        - label: Passes `verifySink` from `@walcast/plugin-kit`
+        - label: Durability declared correctly
+        - label: README with a complete config reference
+        - label: Follows semver
+        - label: '`package.json` keywords include `walcast` and `walcast-sink`'
