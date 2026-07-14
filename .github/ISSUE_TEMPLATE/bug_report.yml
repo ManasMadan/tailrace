@@ -1,0 +1,64 @@
+name: Bug report
+description: Something in walcast doesn't behave as documented
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. The more of this you fill in, the faster it gets fixed —
+        replication bugs in particular are nearly impossible to diagnose without versions and logs.
+  - type: input
+    id: walcast-version
+    attributes:
+      label: walcast version
+      description: '`npm ls walcast` (or the package version if the bug is in a sink)'
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: postgres-version
+    attributes:
+      label: Postgres version
+      description: '`SELECT version();`'
+      placeholder: PostgreSQL 16.3
+    validations:
+      required: true
+  - type: input
+    id: wal-level
+    attributes:
+      label: wal_level
+      description: '`SHOW wal_level;` — must be `logical` for walcast to work at all'
+      placeholder: logical
+    validations:
+      required: true
+  - type: textarea
+    id: sinks
+    attributes:
+      label: Sink packages and versions
+      description: Every sink package in play, with versions. Write "none — library mode" if you're using the async iterator directly.
+      placeholder: |
+        @walcast/sink-webhook 0.1.0
+        walcast-sink-clickhouse 1.2.0
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Configuration
+      description: Your walcast config **with secrets redacted** (connection string password, auth tokens, HMAC secrets).
+      render: jsonc
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened, and what did you expect?
+      description: Steps to reproduce if you have them. A minimal repro is gold.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Relevant daemon/library output. `WALCAST_LOG_LEVEL=debug` output is even better. Redact secrets.
+      render: shell
